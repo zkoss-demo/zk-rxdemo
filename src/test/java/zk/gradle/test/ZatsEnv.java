@@ -1,6 +1,5 @@
 package zk.gradle.test;
 
-import org.apache.commons.codec.language.bm.Rule;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
