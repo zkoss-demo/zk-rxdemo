@@ -1,5 +1,10 @@
 apply plugin: 'war'
-apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+//apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin' //latest plugin version
+apply from: 'https://raw.githubusercontent.com/akhikhl/gretty/v2.0.0/pluginScripts/gretty.plugin' //version 2.0.0
+
+gretty {
+	servletContainer = 'jetty9.4'
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
