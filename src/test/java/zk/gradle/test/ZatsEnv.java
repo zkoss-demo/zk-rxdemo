@@ -14,7 +14,7 @@ import org.zkoss.zats.mimic.ZatsEnvironment;
 
 /**
  * A {@link TestRule} implementing {@link ExternalResource} creating and destroying a {@link ZatsEnvironment}.</br>
- * Used with {@link ClassRule} it provides a pluggable alternative to separate static methods annotated with {@link BeforeClass} and {@link AfterClass}</br>
+ * Used with {@link org.junit.ClassRule} it provides a pluggable alternative to separate static methods annotated with {@link BeforeClass} and {@link AfterClass}</br>
  * </br>
  * Also see: <a href="https://dzone.com/articles/junit-49-class-and-suite-level-rules" target="_blank">dzone.com/articles/junit-49-class-and-suite-level-rules</a>
  */
@@ -59,7 +59,7 @@ public class ZatsEnv extends ExternalResource {
 
 	/**
 	 * A {@link TestRule} implementing {@link ExternalResource} automatically creating and destroying a new Zats {@link Client} instance.</br>
-	 * Used with {@link Rule} this will provide a pluggable alternative to separate methods annotated with {@link Before} and {@link After}
+	 * Used with {@link org.junit.Rule} this will provide a pluggable alternative to separate methods annotated with {@link Before} and {@link After}
 	 */
 	public class AutoClient extends ExternalResource {
 		private org.zkoss.zats.mimic.Client client;
