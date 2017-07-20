@@ -1,9 +1,13 @@
 apply plugin: 'war'
-//apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin' //latest plugin version
-apply from: 'https://raw.githubusercontent.com/akhikhl/gretty/v2.0.0/pluginScripts/gretty.plugin' //version 2.0.0
 
+//gretty
+buildscript {
+  repositories { jcenter() }
+  dependencies { classpath 'org.akhikhl.gretty:gretty:+' }
+}
+apply plugin: 'org.akhikhl.gretty'
 gretty {
-	servletContainer = 'jetty9.4'
+	servletContainer = 'jetty9.4' //jetty7, jetty8, jetty9, jetty9.3, jetty9.4
 }
 
 // In this section you declare where to find the dependencies of your project
@@ -35,4 +39,12 @@ dependencies {
 	
 	testCompile "org.zkoss.zats:zats-mimic-ext7:${zatsVersion}"
 	testCompile "junit:junit:${junitVersion}"
+	testCompile "org.eclipse.jetty:jetty-webapp:${jettyVersion}"
+}
+
+task runJetty(type: JavaExec) {
+  classpath = sourceSets.test.runtimeClasspath
+  main 'zk.gradle.test.RunJetty'
+  standardInput System.in
+  args "/${rootProject.name}", 'src/main/webapp'
 }

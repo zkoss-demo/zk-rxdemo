@@ -4,9 +4,13 @@ Example ZK project using gradle
 
 ## Useful Build Commands
 
-run jetty
+run jetty (with gretty plugin)
 ```
 ./gradlew appRun
+```
+run embedded jetty
+```
+./gradlew jettyRun
 ```
 http://localhost:8080/zk-gradle
 
