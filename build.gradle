@@ -46,5 +46,5 @@ task runJetty(type: JavaExec) {
   classpath = sourceSets.test.runtimeClasspath
   main 'zk.gradle.test.RunJetty'
   standardInput System.in
-  args "/${rootProject.name}", 'src/main/webapp'
+  args "/${rootProject.name}", project.webAppDirName
 }
