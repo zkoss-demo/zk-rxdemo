@@ -41,12 +41,11 @@ dependencies {
 	testCompile "junit:junit:${junitVersion}"
 	testCompile "org.eclipse.jetty:jetty-webapp:${jettyVersion}"
 	testCompile "org.eclipse.jetty.websocket:javax-websocket-server-impl:${jettyVersion}"
-
 }
 
 task runJetty(type: JavaExec) {
-  classpath = sourceSets.test.runtimeClasspath
-  main 'zk.gradle.test.RunJetty'
-  standardInput System.in
-  args "/${rootProject.name}", project.webAppDirName
+	classpath = sourceSets.test.runtimeClasspath
+	main 'zk.gradle.test.RunJetty'
+	standardInput System.in
+	jvmArgs "-Dorg.zkoss.RunJetty.contextPath=/${rootProject.name}"
 }

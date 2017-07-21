@@ -1,6 +1,4 @@
 package zk.gradle.test;
-import javax.websocket.WebSocketContainer;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -18,36 +16,40 @@ import org.zkoss.zkmax.ui.comet.CometAsyncServlet;
  */
 public class RunJetty {
 
+	private static final String JETTY_HTTP_PORT = "org.zkoss.RunJetty.httpPort";
+	private static final String JETTY_CONFIG_TYPE = "org.zkoss.RunJetty.configType";
+	private static final String JETTY_CONTEXT_PATH = "org.zkoss.RunJetty.contextPath";
+	private static final String JETTY_WEBAPP_FOLDER = "org.zkoss.RunJetty.webappFolder";
+	private static final String JETTY_ENABLE_WEBSOCKET = "org.zkoss.RunJetty.enableWebsocket";
+
 	public static void main(String[] args) throws Exception {
-		if(args.length < 2) {
-			System.out.println("2 arguments required: contextPath webappFolder [java|webxml]");
-			System.out.println("e.g. /zk-gradle src/main/webapp        (defaults to 'webxml')");
-			System.out.println("e.g. /zk-gradle src/main/webapp java");
-			System.exit(1);
-		}
+		int port = Integer.valueOf(System.getProperty(JETTY_HTTP_PORT, "8080"));
+		String configType = System.getProperty(JETTY_CONFIG_TYPE, "webxml");
+		String contextPath = System.getProperty(JETTY_CONTEXT_PATH, "/");
+		String webappFolder = System.getProperty(JETTY_WEBAPP_FOLDER, "src/main/webapp");
+		boolean enableWebsocket = Boolean.valueOf(System.getProperty(JETTY_ENABLE_WEBSOCKET, "true"));
 
-		String contextPath = args[0];
-		String webappFolder = args[1];
-		String configType = "webxml";
-		if(args.length == 3) {
-			configType = args[2];
-		}
-
-		
-		Server server = new Server(8080);
-		ServletContextHandler handler = null;
-		if("java".equals(configType)) {
-			handler = initZkProgrammatically(webappFolder, contextPath);
-		} else if ("webxml".equals(configType)) {
-			handler = new WebAppContext(webappFolder, contextPath);
-		}
+		Server server = new Server(port);
+		ServletContextHandler handler = configureContext(configType, contextPath, webappFolder);
 		server.setHandler(handler);
-		WebSocketServerContainerInitializer.configureContext(handler);
+		if(enableWebsocket) {
+			WebSocketServerContainerInitializer.configureContext(handler);
+		}
 		
 		server.start();
-		System.out.println("Press ENTER to exit ......");
+		System.err.println("ZK Application listening on: " + server.getURI());
+		System.err.println("Press ENTER to exit ......");
 		System.in.read();
 		server.stop();
+	}
+
+	private static ServletContextHandler configureContext(String configType, String contextPath, String webappFolder) {
+		if("java".equals(configType)) {
+			return initZkProgrammatically(webappFolder, contextPath);
+		} else if ("webxml".equals(configType)) {
+			return new WebAppContext(webappFolder, contextPath);
+		}
+		throw new IllegalArgumentException("incorrect config type only 'java' or 'webxml' are supported");
 	}
 
 	private static ServletContextHandler initZkProgrammatically(String resourceBase, String contextPath) {
