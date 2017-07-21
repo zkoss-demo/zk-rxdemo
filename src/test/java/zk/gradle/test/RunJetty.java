@@ -1,9 +1,12 @@
 package zk.gradle.test;
+import javax.websocket.WebSocketContainer;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
 import org.zkoss.zk.au.http.DHtmlUpdateServlet;
 import org.zkoss.zk.ui.http.DHtmlLayoutServlet;
 import org.zkoss.zkmax.ui.comet.CometAsyncServlet;
@@ -29,13 +32,17 @@ public class RunJetty {
 		if(args.length == 3) {
 			configType = args[2];
 		}
+
 		
 		Server server = new Server(8080);
+		ServletContextHandler handler = null;
 		if("java".equals(configType)) {
-			server.setHandler(initZkProgrammatically(webappFolder, contextPath));
+			handler = initZkProgrammatically(webappFolder, contextPath);
 		} else if ("webxml".equals(configType)) {
-			server.setHandler(new WebAppContext(webappFolder, contextPath));
+			handler = new WebAppContext(webappFolder, contextPath);
 		}
+		server.setHandler(handler);
+		WebSocketServerContainerInitializer.configureContext(handler);
 		
 		server.start();
 		System.out.println("Press ENTER to exit ......");

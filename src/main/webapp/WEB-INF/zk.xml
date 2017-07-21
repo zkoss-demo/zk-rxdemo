@@ -9,4 +9,9 @@
 		<value>zk-gradle</value>
 	</preference>
 	-->
+
+	<listener>
+		<listener-class>org.zkoss.zkmax.au.websocket.WebSocketWebAppInit</listener-class>
+	</listener>
+
 </zk>

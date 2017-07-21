@@ -40,6 +40,8 @@ dependencies {
 	testCompile "org.zkoss.zats:zats-mimic-ext7:${zatsVersion}"
 	testCompile "junit:junit:${junitVersion}"
 	testCompile "org.eclipse.jetty:jetty-webapp:${jettyVersion}"
+	testCompile "org.eclipse.jetty.websocket:javax-websocket-server-impl:${jettyVersion}"
+
 }
 
 task runJetty(type: JavaExec) {
