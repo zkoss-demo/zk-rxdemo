@@ -10,7 +10,7 @@ run jetty (with gretty plugin)
 ```
 run embedded jetty
 ```
-./gradlew jettyRun
+./gradlew runJetty
 ```
 http://localhost:8080/zk-gradle
 
