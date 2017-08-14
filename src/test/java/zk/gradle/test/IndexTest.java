@@ -16,7 +16,7 @@ import org.zkoss.zul.Textbox;
 public class IndexTest {
 	//init/destroy a DefaultZatsEnvironment once for the whole test class
 	@ClassRule
-	public static ZatsEnv env = new ZatsEnv("./src/main/webapp");
+	public static ZatsEnv env = new ZatsEnv( "./src/main/webapp/WEB-INF", "./src/main/webapp");
 
 	//automatically creates/destroys a Zats Client around each @Test method
 	@Rule 
