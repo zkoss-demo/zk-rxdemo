@@ -11,7 +11,7 @@
 			<Item>org.eclipse.jetty.webapp.FragmentConfiguration</Item>
 			<Item>org.eclipse.jetty.plus.webapp.EnvConfiguration</Item>
 			<Item>org.eclipse.jetty.plus.webapp.PlusConfiguration</Item>
-<!-- 			<Item>org.eclipse.jetty.annotations.AnnotationConfiguration</Item> -->
+ 			<!--<Item>org.eclipse.jetty.annotations.AnnotationConfiguration</Item>-->
 			<Item>org.eclipse.jetty.webapp.JettyWebXmlConfiguration</Item>
 		</Array>
 	</Set>

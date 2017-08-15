@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk>
-	<!-- [Optional]
-	Uncomment if you want to defines the application's name 
-	
-	<preference>
-		<name>org.zkoss.zk.ui.WebApp.name</name>
-		<value>zk-gradle</value>
-	</preference>
-	-->
-
-	<listener>
+	 <!--enable websocket support in ZK 8.5  -->
+	<!--<listener>
 		<listener-class>org.zkoss.zkmax.au.websocket.WebSocketWebAppInit</listener-class>
-	</listener>
-
+	</listener>-->
 </zk>
