@@ -25,6 +25,12 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+	jettyRunner {
+		runtimeClasspath += sourceSets.main.runtimeClasspath
+	}
+}
+
 // In this section you declare the dependencies for your production and test code
 dependencies {
 	compile "org.zkoss.zk:zk:${zkVersion}"
@@ -39,12 +45,14 @@ dependencies {
 	
 	testCompile "org.zkoss.zats:zats-mimic-ext7:${zatsVersion}"
 	testCompile "junit:junit:${junitVersion}"
-	testCompile "org.eclipse.jetty:jetty-webapp:${jettyVersion}"
+
+	jettyRunnerRuntime "org.eclipse.jetty:jetty-runner:${jettyVersion}"
+	jettyRunnerRuntime "org.eclipse.jetty.websocket:javax-websocket-server-impl:${jettyVersion}"
 }
 
-task runJetty(type: JavaExec) {
-  classpath = sourceSets.test.runtimeClasspath
-  main 'zk.gradle.test.RunJetty'
-  standardInput System.in
-  args "/${rootProject.name}", project.webAppDirName
+//launch Jetty using jetty-runner
+task startJettyRunner(type: JavaExec) {
+	classpath = sourceSets.jettyRunner.runtimeClasspath
+	main 'org.eclipse.jetty.runner.Runner'
+	args '--path', "/${rootProject.name}", 'src/main/webapp'
 }

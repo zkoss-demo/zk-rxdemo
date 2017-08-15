@@ -8,9 +8,9 @@ run jetty (with gretty plugin)
 ```
 ./gradlew appRun
 ```
-run embedded jetty
+run jetty (with jetty-runner - faster startup time)
 ```
-./gradlew runJetty
+./gradlew startJettyRunner
 ```
 http://localhost:8080/zk-gradle
 
