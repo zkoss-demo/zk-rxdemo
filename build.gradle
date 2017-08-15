@@ -47,7 +47,6 @@ dependencies {
 	testCompile "junit:junit:${junitVersion}"
 
 	jettyRunnerRuntime "org.eclipse.jetty:jetty-runner:${jettyVersion}"
-	jettyRunnerRuntime "org.eclipse.jetty.websocket:javax-websocket-server-impl:${jettyVersion}"
 }
 
 //launch Jetty using jetty-runner
