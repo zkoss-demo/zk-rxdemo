@@ -8,7 +8,7 @@ run jetty (with gretty plugin)
 ```
 ./gradlew appRun
 ```
-run jetty (with jetty-runner)
+run jetty (with jetty-runner - faster startup time)
 ```
 ./gradlew startJettyRunner
 ```
