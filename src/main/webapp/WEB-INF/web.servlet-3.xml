@@ -6,7 +6,7 @@
 	version="3.0">
 
 	<description><![CDATA[My ZK Application]]></description>
-	<display-name>zk-gradle</display-name>
+	<display-name>zk-rxdemo</display-name>
 
 	<!-- [Optional]
 	Uncomment if you want to use the ZK filter to post process the HTML output

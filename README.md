@@ -1,4 +1,4 @@
-# ZK Gradle
+# ZK RX-Demo
 
 Example ZK project using gradle
 
@@ -12,7 +12,7 @@ run jetty (with jetty-runner - faster startup time)
 ```
 ./gradlew startJettyRunner
 ```
-http://localhost:8080/zk-gradle
+http://localhost:8080/zk-rxdemo
 
 run tests
 ```

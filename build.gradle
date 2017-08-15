@@ -42,7 +42,9 @@ dependencies {
 //	compile "org.zkoss.zk:zkplus:${zkVersion}"  /*optional enable for 3rd party framework integration support */
 
 	compile "commons-io:commons-io:${commonsIoVersion}"
-	
+
+	compile "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+
 	testCompile "org.zkoss.zats:zats-mimic-ext7:${zatsVersion}"
 	testCompile "junit:junit:${junitVersion}"
 
