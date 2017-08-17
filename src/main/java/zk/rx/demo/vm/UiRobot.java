@@ -5,7 +5,7 @@ import zk.rx.demo.domain.Robot;
 
 public class UiRobot {
 	private Robot robot;
-	private boolean inside;
+	private boolean realTime;
 
 	public UiRobot(Robot robot) {
 		this.robot = robot;
@@ -19,16 +19,16 @@ public class UiRobot {
 		this.robot = robot;
 	}
 
-	public boolean isInside() {
-		return inside;
+	public boolean isRealTime() {
+		return realTime;
 	}
 
-	public void setInside(boolean inside) {
-		this.inside = inside;
+	public void setRealTime(boolean realTime) {
+		this.realTime = realTime;
 	}
 
-	@DependsOn({"robot", "inside"})
+	@DependsOn({"robot", "realTime"})
 	public String getStyleClasses() {
-		return "robot " + (isInside() ? "inner" : "outer") + " " + robot.getStatus().toString();
+		return "robot " + (isRealTime() ? "realtime" : "delayed") + " " + robot.getStatus().toString();
 	}
 }

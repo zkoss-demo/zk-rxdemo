@@ -6,24 +6,24 @@ public class TrackEvent<T> {
 	public enum Name {ON_ENTER, ON_UPDATE, ON_LEAVE}
 
 	private Name name;
-	private T target;
-	private Position oldPosition;
+	private T current;
+	private T previous;
 
-	public TrackEvent(Name name, T target, Position oldPosition) {
+	public TrackEvent(Name name, T current, T previous) {
 		this.name = name;
-		this.target = target;
-		this.oldPosition = oldPosition;
+		this.current = current;
+		this.previous = previous;
 	}
 
 	public Name getName() {
 		return name;
 	}
 
-	public T getTarget() {
-		return target;
+	public T getCurrent() {
+		return current;
 	}
 
-	public Position getOldPosition() {
-		return oldPosition;
+	public T getPrevious() {
+		return previous;
 	}
 }

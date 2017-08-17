@@ -39,7 +39,7 @@ public class RobotBackend {
 						updateRandomRobots()
 //								.peek(robot -> Logger.log("updated robot: " + robot))
 								.forEach(event -> {
-									allRobots.put(event.getTarget().getId(), event.getTarget());
+									allRobots.put(event.getCurrent().getId(), event.getCurrent());
 									source.onNext(event);
 								});
 					} catch (InterruptedException e) {
@@ -55,7 +55,7 @@ public class RobotBackend {
 	public Observable<TrackEvent<Robot>> trackRobots() {
 		Stream<TrackEvent<Robot>> currentRobots = allRobots.values()
 				.stream()
-				.map(robot -> new TrackEvent<>(TrackEvent.Name.ON_ENTER, robot, robot.getPosition()));
+				.map(robot -> new TrackEvent<>(TrackEvent.Name.ON_ENTER, robot, robot));
 		return hotRobotObservable
 				.startWith(currentRobots::iterator);
 	}
@@ -73,7 +73,7 @@ public class RobotBackend {
 		double y = Math.cos(time * 13 / robot.getId() + robot.getId() * Math.PI * 0.2) * 45 + 50 + Math.cos(time * 8 + robot.getId()) * 3;
 
 		Robot updatedRobot = robot.update(new Position(x, y), randomStatus(robot.getStatus()));
-		return new TrackEvent<>(TrackEvent.Name.ON_UPDATE, updatedRobot, robot.getPosition());
+		return new TrackEvent<>(TrackEvent.Name.ON_UPDATE, updatedRobot, robot);
 	}
 
 	private double clamp(double lower, double upper, double value) {
@@ -85,7 +85,7 @@ public class RobotBackend {
 	}
 
 	private boolean shallUpdate(Robot robot) {
-		return Math.random() < 0.5;
+		return Math.random() < 0.3;
 	}
 
 }

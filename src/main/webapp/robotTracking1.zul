@@ -27,13 +27,23 @@
 			border: 1px solid DarkSlateGray;
 			border-radius: 4px;
 			background-color: LightSlateGrey;
-			transition: left 0.2s linear, top 0.2s linear, opacity 0.5s
+			transition: left 0.2s linear, top 0.2s linear, opacity 0.5s, background-color 0.5s, transform 0.5s
 		}
 
-		.robot.inner {
+		.robot.realtime {
+			transform: scale(1.2);
 		}
-		.robot.outer {
+		.robot.delayed {
+			transform: scale(1);
 			opacity: 0.3;
+			transition: left 0.5s linear, top 0.5s linear, opacity 0.5s, background-color 0.5s, transform 0.5s
+		}
+
+		.robot.HAPPY {
+			background-color: OliveDrab;
+		}
+		.robot.ANGRY {
+			background-color: Tomato;
 		}
 
 		.robot.HAPPY::before {
@@ -44,7 +54,6 @@
 		}
 		.robot.ANGRY::before {
 			content: '😠';
-			color: red;
 		}
 	]]>
 	</style>
@@ -62,6 +71,7 @@
 				</apply>
 			</forEach>
 		</div>
+		<selectbox model="@init(vm.filterNamesModel)" onSelect="@command('selectFilter')"/>
 		<button label="test server response" onClick='Clients.showNotification("still responsive")'/>
 		<button label="start" onClick="@command('start')"/>
 		<button label="stop" onClick="@command('stop')"/>
