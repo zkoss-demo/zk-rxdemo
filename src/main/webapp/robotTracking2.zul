@@ -1,0 +1,69 @@
+<zk>
+
+	<style><![CDATA[
+		.trackingArea {
+			position: relative;
+			width: 600px;
+			height: 400px;
+			margin: 12px;
+			border: 1px solid red;
+		}
+
+		.innerTrackingArea {
+			position: absolute;
+			top: 20%;
+			left: 20%;
+			bottom: 20%;
+			right: 20%;
+			background-color: PeachPuff;
+		}
+
+		.robot {
+			position: absolute;
+			margin-left: -12px;
+			margin-top: -12px;
+			width: 24px;
+			height: 24px;
+			border: 1px solid DarkSlateGray;
+			border-radius: 4px;
+			background-color: LightSlateGrey;
+			transition: left 0.2s linear, top 0.2s linear, opacity 0.5s
+		}
+
+		.robot.inner {
+		}
+		.robot.outer {
+			opacity: 0.3;
+		}
+
+		.robot.HAPPY::before {
+			content: '😀';
+		}
+		.robot.NEUTRAL::before {
+			content: '😐';
+		}
+		.robot.ANGRY::before {
+			content: '😠';
+			color: red;
+		}
+	]]>
+	</style>
+
+
+	<div viewModel="@id('vm') @init('zk.rx.demo.vm.RobotFarmViewModel')">
+		<div sclass="trackingArea">
+			<div sclass="innerTrackingArea"/>
+			<forEach items="@init(vm.trackedRobots)">
+				<apply uiRobot="@init(each.value)">
+					<div sclass="@load(uiRobot.styleClasses)"
+						 top="@load((uiRobot.robot.position.y += '%'))"
+						 left="@load((uiRobot.robot.position.x += '%'))">
+					</div>
+				</apply>
+			</forEach>
+		</div>
+		<button label="test server response" onClick='Clients.showNotification("still responsive")'/>
+		<button label="start" onClick="@command('start')"/>
+		<button label="stop" onClick="@command('stop')"/>
+	</div>
+</zk>

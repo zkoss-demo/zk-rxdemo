@@ -7,10 +7,7 @@ import io.reactivex.functions.Consumer;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
 
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -26,9 +23,10 @@ public class ZkObservable {
 				.doOnNext(toConsumer(desktopOps.activate()))
 				.doAfterNext(toConsumer(desktopOps.deactivate()))
 				.doOnTerminate(desktopOps.deactivate());
+
 	}
 
-	public static <T> ObservableTransformer<T, T> activatedThrottled(int millis) {
+	public static <T> ObservableTransformer<T, T> activatedThrottle(int millis) {
 		return upstream -> upstream
 				.buffer(millis, TimeUnit.MILLISECONDS)
 				.filter(items -> !items.isEmpty()) //avoid activation when buffer is empty
@@ -36,26 +34,26 @@ public class ZkObservable {
 				.concatMapIterable(items -> items); //concat... to preserve the original emission order
 	}
 
-	public static <T, K> ObservableTransformer<T, Collection<T>> bufferUnique(int millis, java.util.function.Function<T, K> keySelector) {
-		return upstream -> upstream.buffer(
-				Observable.interval(millis, TimeUnit.MILLISECONDS), 
-				() -> new KeyedSet<K, T>(keySelector)); 
-	}
-
-	public static <T, K> ObservableTransformer<T, T> activatedBufferUnique(int millis, java.util.function.Function<T, K> keySelector) {
+	public static <T, K> ObservableTransformer<T, T> activatedThrottleUnique(int millis, java.util.function.Function<T, K> keySelector) {
 		return upstream -> upstream
 				.compose(bufferUnique(millis, keySelector))
 				.filter(items -> !items.isEmpty()) //avoid activation when buffer is empty
 				.compose(activated())
 				.concatMapIterable(items -> items); //concat... to preserve the original emission order
 	}
+	public static <T, K> ObservableTransformer<T, Collection<T>> bufferUnique(int millis, java.util.function.Function<T, K> keySelector) {
+		return upstream -> upstream.buffer(
+				Observable.interval(millis, TimeUnit.MILLISECONDS),
+				() -> new KeyedSet<K, T>(keySelector));
+	}
+
 	private static <T> Consumer<T> toConsumer(Action action) {
 		return ignored -> action.run();
 	}
 	
 	static class KeyedSet<K, V> extends AbstractSet<V> {
 		private java.util.function.Function<V, K> keySelector;
-		private Map<K, V> innerMap = new ConcurrentHashMap<>();
+		private Map<K, V> innerMap = new LinkedHashMap<>(16, 0.75f, true);
 		
 		public KeyedSet(java.util.function.Function<V, K> keySelector) {
 			this.keySelector = keySelector;

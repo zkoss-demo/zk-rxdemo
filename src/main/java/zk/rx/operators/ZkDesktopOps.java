@@ -11,8 +11,8 @@ public class ZkDesktopOps {
 		this.desktop = desktop;
 	}
 	public Action activate() {
-		return () -> { 
-			Executions.activate(desktop); 
+		return () -> {
+			Executions.activate(desktop);
 			Logger.log("activate");
 		};
 	}
