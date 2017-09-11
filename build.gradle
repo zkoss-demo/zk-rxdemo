@@ -28,7 +28,6 @@ repositories {
 sourceSets {
 	jettyRunner {
 		runtimeClasspath += sourceSets.main.runtimeClasspath
-		resources += sourceSets.main.resources
 	}
 }
 
