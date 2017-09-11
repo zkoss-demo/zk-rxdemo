@@ -37,4 +37,10 @@
 		<value>false</value>
 	</library-property>-->
 
+	<!--https://www.zkoss.org/wiki/ZK_Configuration_Reference/zk.xml/The_Library_Properties/org.zkoss.web.classWebResource.cache-->
+	<!--<library-property>
+		<name>org.zkoss.web.classWebResource.cache</name>
+		<value>false</value>
+	</library-property>-->
+
 </zk>
