@@ -7,10 +7,6 @@ public class Robot {
 	private Position position;
 	private Status status = Status.HAPPY;
 
-	public Robot(long id) {
-		this.id = id;
-	}
-
 	public Robot(long id, Position position, Status status) {
 		this.id = id;
 		this.position = position;

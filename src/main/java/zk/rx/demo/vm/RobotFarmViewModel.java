@@ -119,7 +119,7 @@ public class RobotFarmViewModel {
 				uiRobot.setRealTime(realtime);
 				break;
 			case ON_LEAVE:
-				if(uiRobot.isRealTime() == !realtime) {
+				if (uiRobot.isRealTime() == !realtime) {
 					return;
 				}
 				uiRobot.setRealTime(!realtime);

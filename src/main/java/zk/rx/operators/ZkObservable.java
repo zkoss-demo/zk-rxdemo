@@ -6,6 +6,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
+import zk.rx.demo.helper.Logger;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,7 +24,6 @@ public class ZkObservable {
 				.doOnNext(toConsumer(desktopOps.activate()))
 				.doAfterNext(toConsumer(desktopOps.deactivate()))
 				.doOnTerminate(desktopOps.deactivate());
-
 	}
 
 	public static <T> ObservableTransformer<T, T> activatedThrottle(int millis) {
@@ -41,6 +41,7 @@ public class ZkObservable {
 				.compose(activated())
 				.concatMapIterable(items -> items); //concat... to preserve the original emission order
 	}
+
 	public static <T, K> ObservableTransformer<T, Collection<T>> bufferUnique(int millis, java.util.function.Function<T, K> keySelector) {
 		return upstream -> upstream.buffer(
 				Observable.interval(millis, TimeUnit.MILLISECONDS),

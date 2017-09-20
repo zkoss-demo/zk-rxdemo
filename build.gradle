@@ -8,6 +8,7 @@ buildscript {
 apply plugin: 'org.akhikhl.gretty'
 gretty {
 	servletContainer = 'jetty9.4' //jetty7, jetty8, jetty9, jetty9.3, jetty9.4
+//	servletContainer = 'tomcat8'
 }
 
 // In this section you declare where to find the dependencies of your project
@@ -38,15 +39,9 @@ dependencies {
 	compile "org.zkoss.zk:zkex:${zkVersion}"    /*ZK PE*/
 	compile "org.zkoss.zk:zkmax:${zkVersion}"   /*ZK EE*/
 	compile "org.zkoss.zk:zuti:${zkVersion}"    /*optional enable for shadow elements support */
-//	compile "org.zkoss.zk:zhtml:${zkVersion}"   /*optional enable for xhtml component support */
-//	compile "org.zkoss.zk:zkplus:${zkVersion}"  /*optional enable for 3rd party framework integration support */
-
 	compile "commons-io:commons-io:${commonsIoVersion}"
 
 	compile "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
-
-	testCompile "org.zkoss.zats:zats-mimic-ext7:${zatsVersion}"
-	testCompile "junit:junit:${junitVersion}"
 
 	jettyRunnerRuntime "org.eclipse.jetty:jetty-runner:${jettyVersion}"
 	jettyRunnerRuntime "org.eclipse.jetty.websocket:javax-websocket-server-impl:${jettyVersion}"
@@ -56,5 +51,5 @@ dependencies {
 task startJettyRunner(type: JavaExec) {
 	classpath = sourceSets.jettyRunner.runtimeClasspath
 	main 'org.eclipse.jetty.runner.Runner'
-	args '--path', "/${rootProject.name}", 'jetty-context.xml'
+	args '--path', "/${rootProject.name}", 'src/main/webapp'
 }
