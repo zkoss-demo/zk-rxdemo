@@ -1,0 +1,31 @@
+<!--<?style src="style.css"?>-->
+<zk xmlns:w="client">
+	<style src="style.css"/>
+	<div id="robotFarm" viewModel="@id('vm') @init('zk.rx.demo.vm.RobotFarmViewModel')">
+		<attribute w:name="onBind"><![CDATA[
+			var binder = zkbind.$(this);
+			document.addEventListener("visibilitychange",
+				function(event) { binder.command(document.hidden ? 'stop' : 'start'); },
+				false);
+		]]></attribute>
+
+		<div sclass="trackingArea">
+			<div sclass="innerTrackingArea"/>
+			<forEach items="@init(vm.trackedRobots)" var="mapEntry">
+				<apply uiRobot="@init(mapEntry.value)">
+					<div sclass="@load(uiRobot.styleClasses)"
+						 left="@load((uiRobot.robot.position.x += '%'))"
+						 top="@load((uiRobot.robot.position.y += '%'))">
+					</div>
+				</apply>
+			</forEach>
+		</div>
+
+		<div sclass="controlArea" align="center">
+			<combobox readonly="true" model="@init(vm.filterNamesModel)" onSelect="@command('selectFilter')"/>
+			<button iconSclass="z-icon-retweet" label="ping server" onClick="@command('testServerResponse')"/>
+			<button iconSclass="z-icon-power-off" label="@load(vm.running ? 'stop' : 'start')"
+					onClick="@command('toggleRunning')"/>
+		</div>
+	</div>
+</zk>
