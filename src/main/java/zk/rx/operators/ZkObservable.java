@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
 import zk.rx.demo.helper.Logger;
@@ -20,8 +21,10 @@ public class ZkObservable {
 
 	public static <T> ObservableTransformer<T, T> activated(Desktop desktop) {
 		ZkDesktopOps desktopOps = new ZkDesktopOps(desktop);
+		//use IO Scheduler - potentially blocking operation to wait for desktop activation
 		return upstream -> upstream
-				.doOnNext(toConsumer(desktopOps.activate()))
+				.observeOn(Schedulers.io())
+				.doOnNext(toConsumer(desktopOps.activate())) //potentially blocking
 				.doAfterNext(toConsumer(desktopOps.deactivate()))
 				.doOnTerminate(desktopOps.deactivate());
 	}

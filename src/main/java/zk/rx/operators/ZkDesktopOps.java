@@ -12,15 +12,16 @@ public class ZkDesktopOps {
 	}
 	public Action activate() {
 		return () -> {
+//			Logger.log("activate:" + desktop);
 			Executions.activate(desktop);
-//			Logger.log("activate");
+//			Logger.log("activated:" + desktop);
 		};
 	}
 	public Action deactivate() {
 		return () -> {
 			if(Executions.getCurrent() != null) {
 				Executions.deactivate(desktop);
-//				Logger.log("deactivate");
+//				Logger.log("deactivated:" + desktop);
 			}
 		};
 	}
