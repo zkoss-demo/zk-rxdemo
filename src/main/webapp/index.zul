@@ -1,6 +1,5 @@
-<!--<?style src="style.css"?>-->
+<?style src="style.css"?>
 <zk xmlns:w="client">
-	<style src="style.css"/>
 	<div id="robotFarm" viewModel="@id('vm') @init('zk.rx.demo.vm.RobotFarmViewModel')">
 		<attribute w:name="onBind"><![CDATA[
 			var binder = zkbind.$(this);

@@ -29,6 +29,6 @@ public class UiRobot {
 
 	@DependsOn({"robot", "realTime"})
 	public String getStyleClasses() {
-		return "robot " + (isRealTime() ? "realtime" : "delayed") + " " + robot.getStatus().toString();
+		return "robot " + (isRealTime() ? "realtime" : "delayed") + " " + robot.getMood().toString().toLowerCase();
 	}
 }

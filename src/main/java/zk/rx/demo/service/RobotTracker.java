@@ -5,6 +5,7 @@ import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.schedulers.Schedulers;
 import org.zkoss.zk.ui.DesktopUnavailableException;
 import zk.rx.demo.domain.Region;
 import zk.rx.demo.domain.Robot;
@@ -22,24 +23,22 @@ public class RobotTracker {
 	}
 
 	public Observable<TrackEvent<Robot>> trackRobots(Predicate<Robot> filter) {
-
-		Function<TrackEvent<Robot>, TrackingMatch> matcher = (TrackEvent<Robot> event) -> new TrackingMatch(event, filter);
-
 		return backend.trackRobots()
-				.map(matcher)
+				.observeOn(Schedulers.computation())
+				.map(event -> new TrackingMatch(event, filter))
 				.filter(TrackingMatch::anyMatch)
 				.map(result -> {
 					TrackEvent<Robot> event = result.getEvent();
 					Robot current = event.getCurrent();
 					Robot previous = event.getPrevious();
 
-					if(result.allMatch()) {
-						return event; //stays inside just ON_UPDATE
+					if (result.allMatch()) {
+						return event; //stays inside filter contraint just ON_UPDATE
 					} else {
-						if(!result.isPreviousMatch()) {
-							return new TrackEvent<>(TrackEvent.Name.ON_ENTER, current, previous);
-						} else {
+						if (result.isPreviousMatch()) {
 							return new TrackEvent<>(TrackEvent.Name.ON_LEAVE, current, previous);
+						} else {
+							return new TrackEvent<>(TrackEvent.Name.ON_ENTER, current, previous);
 						}
 					}
 				});

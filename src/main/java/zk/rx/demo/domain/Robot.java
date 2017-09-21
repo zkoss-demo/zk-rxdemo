@@ -1,16 +1,16 @@
 package zk.rx.demo.domain;
 
 public class Robot {
-	public enum Status {HAPPY, NEUTRAL, ANGRY}
+	public enum Mood {HAPPY, NEUTRAL, ANGRY}
 
 	private long id;
 	private Position position;
-	private Status status = Status.HAPPY;
+	private Mood mood = Mood.HAPPY;
 
-	public Robot(long id, Position position, Status status) {
+	public Robot(long id, Position position, Mood status) {
 		this.id = id;
 		this.position = position;
-		this.status = status;
+		this.mood = status;
 	}
 
 	public long getId() {
@@ -21,11 +21,11 @@ public class Robot {
 		return position;
 	}
 
-	public Status getStatus() {
-		return status;
+	public Mood getMood() {
+		return mood;
 	}
 
-	public Robot update(Position position, Status status) {
-		return new Robot(this.getId(), position, status);
+	public Robot update(Position position, Mood mood) {
+		return new Robot(this.getId(), position, mood);
 	}
 }
