@@ -6,6 +6,7 @@ import io.reactivex.functions.Predicate;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.bind.annotation.ToServerCommand;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.util.Clients;
@@ -55,8 +56,8 @@ public class RobotFarmViewModel {
 		start();
 	}
 
-
 	@Command
+	@NotifyChange("centerRegionTracking")
 	public void selectFilter() {
 		currentFilter = availableFilters.get(filterNamesModel.getSelection().iterator().next());
 		if(isRunning()) {
@@ -162,5 +163,9 @@ public class RobotFarmViewModel {
 
 	public boolean isRunning() {
 		return !(subscriptions == null || subscriptions.isDisposed());
+	}
+
+	public boolean isCenterRegionTracking() {
+		return this.filterNamesModel.getSelection().contains(CENTER_REGION);
 	}
 }
