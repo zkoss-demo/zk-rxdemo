@@ -82,7 +82,9 @@ public class RobotFarmViewModel {
 
 	@Command
 	public void start() {
-		stop();
+		if(isRunning()) {
+			stop();
+		}
 		subscriptions = new CompositeDisposable();
 
 		Disposable realtimeSubscription = robotTracker.trackRobots(this.currentFilter)
@@ -101,7 +103,7 @@ public class RobotFarmViewModel {
 
 	@Command
 	public void stop() {
-		if (subscriptions != null && !subscriptions.isDisposed()) {
+		if(isRunning()) {
 //			Logger.log("Dispose subscriptions: " + subscriptions);
 			subscriptions.dispose();
 			subscriptions = null;
