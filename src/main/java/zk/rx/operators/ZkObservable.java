@@ -31,7 +31,7 @@ public class ZkObservable {
 
 	public static <T> ObservableTransformer<T, T> activatedThrottle(int millis) {
 		return upstream -> upstream
-				.buffer(millis, TimeUnit.MILLISECONDS)
+				.buffer(Observable.interval(10, millis, TimeUnit.MILLISECONDS))
 				.filter(items -> !items.isEmpty()) //avoid activation when buffer is empty
 				.compose(activated())
 				.concatMapIterable(items -> items); //concat... to preserve the original emission order
@@ -47,7 +47,7 @@ public class ZkObservable {
 
 	public static <T, K> ObservableTransformer<T, Collection<T>> bufferUnique(int millis, java.util.function.Function<T, K> keySelector) {
 		return upstream -> upstream.buffer(
-				Observable.interval(millis, TimeUnit.MILLISECONDS),
+				Observable.interval(10, millis, TimeUnit.MILLISECONDS),
 				() -> new KeyedSet<K, T>(keySelector));
 	}
 
