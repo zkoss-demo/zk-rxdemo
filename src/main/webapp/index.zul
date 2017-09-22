@@ -24,7 +24,7 @@
 
 		<div sclass="controlArea" align="center">
 			Real-time:
-			<combobox readonly="true" model="@init(vm.filterNamesModel)" onSelect="@command('selectFilter')" width="120px"/>
+			<combobox readonly="true" model="@init(vm.filterNamesModel)" onSelect="@command('selectFilter')" width="160px"/>
 			<button iconSclass="@load(vm.running ? 'z-icon-stop' : 'z-icon-play')" label="@load(vm.running ? 'Stop' : 'Start')"
 					onClick="@command('toggleRunning')"/>
 			<button iconSclass="z-icon-retweet" label="Ping Server" onClick="@command('testServerResponse')"/>
