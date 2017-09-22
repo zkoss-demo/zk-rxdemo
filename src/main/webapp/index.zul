@@ -10,7 +10,7 @@
 
 		<div sclass="trackingArea">
 			<if test="@load(vm.centerRegionTracking)">
-				<div sclass="realTimeTrackingArea"/>
+				<div sclass="centerRegionArea"/>
 			</if>
 			<forEach items="@init(vm.trackedRobots)" var="mapEntry">
 				<apply uiRobot="@init(mapEntry.value)">
@@ -23,10 +23,11 @@
 		</div>
 
 		<div sclass="controlArea" align="center">
-			<combobox readonly="true" model="@init(vm.filterNamesModel)" onSelect="@command('selectFilter')"/>
-			<button iconSclass="z-icon-retweet" label="ping server" onClick="@command('testServerResponse')"/>
-			<button iconSclass="@load(vm.running ? 'z-icon-stop' : 'z-icon-play')" label="@load(vm.running ? 'stop' : 'start')"
+			Real-time:
+			<combobox readonly="true" model="@init(vm.filterNamesModel)" onSelect="@command('selectFilter')" width="120px"/>
+			<button iconSclass="@load(vm.running ? 'z-icon-stop' : 'z-icon-play')" label="@load(vm.running ? 'Stop' : 'Start')"
 					onClick="@command('toggleRunning')"/>
+			<button iconSclass="z-icon-retweet" label="Ping Server" onClick="@command('testServerResponse')"/>
 		</div>
 	</div>
 </zk>
