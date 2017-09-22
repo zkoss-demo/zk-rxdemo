@@ -14,6 +14,7 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.ListModelMap;
 import zk.rx.demo.domain.Region;
 import zk.rx.demo.domain.Robot;
+import zk.rx.demo.helper.Logger;
 import zk.rx.demo.service.RobotTracker;
 import zk.rx.demo.service.TrackEvent;
 import zk.rx.operators.ZkObservable;
@@ -76,7 +77,7 @@ public class RobotFarmViewModel {
 
 	@Command
 	public void testServerResponse() {
-		Clients.showNotification("Response from Server");
+		Clients.showNotification("Response from Server", Clients.NOTIFICATION_TYPE_INFO, null, "bottom_center", 1500, true);
 	}
 
 	@Command
@@ -84,24 +85,24 @@ public class RobotFarmViewModel {
 		stop();
 		subscriptions = new CompositeDisposable();
 
-		Disposable innerSubscription = robotTracker.trackRobots(this.currentFilter)
+		Disposable realtimeSubscription = robotTracker.trackRobots(this.currentFilter)
 //				.compose(ZkObservable.activated())
 //				.compose(ZkObservable.activatedThrottle(100))
 				.compose(ZkObservable.activatedThrottleUnique(100, event -> event.getCurrent().getId()))
 				.subscribe(this::trackRealtimeRobot, this::handleError);
 
-		Disposable outerSubscription = robotTracker.trackRobots(negate(this.currentFilter))
+		Disposable delayedSubscription = robotTracker.trackRobots(negate(this.currentFilter))
 				.compose(ZkObservable.activatedThrottleUnique(1000, event -> event.getCurrent().getId()))
 				.subscribe(this::trackDelayedRobot, this::handleError);
 
-		subscriptions.addAll(innerSubscription, outerSubscription);
+		subscriptions.addAll(realtimeSubscription, delayedSubscription);
 		notifyRunning();
 	}
 
 	@Command
 	public void stop() {
 		if (subscriptions != null && !subscriptions.isDisposed()) {
-			System.out.println("Dispose subscriptions: " + subscriptions);
+//			Logger.log("Dispose subscriptions: " + subscriptions);
 			subscriptions.dispose();
 			subscriptions = null;
 		}

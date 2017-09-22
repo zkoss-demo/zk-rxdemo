@@ -2,12 +2,9 @@ package zk.rx.demo.service;
 
 import io.reactivex.Observable;
 import io.reactivex.exceptions.UndeliverableException;
-import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
-import org.zkoss.zk.ui.DesktopUnavailableException;
-import zk.rx.demo.domain.Region;
 import zk.rx.demo.domain.Robot;
 
 import java.io.IOException;
@@ -29,17 +26,12 @@ public class RobotTracker {
 				.filter(TrackingMatch::anyMatch)
 				.map(result -> {
 					TrackEvent<Robot> event = result.getEvent();
-					Robot current = event.getCurrent();
-					Robot previous = event.getPrevious();
-
-					if (result.allMatch()) {
+					if (result.bothMatch()) {
 						return event; //stays inside filter contraint just ON_UPDATE
 					} else {
-						if (result.isPreviousMatch()) {
-							return new TrackEvent<>(TrackEvent.Name.ON_LEAVE, current, previous);
-						} else {
-							return new TrackEvent<>(TrackEvent.Name.ON_ENTER, current, previous);
-						}
+						TrackEvent.Name eventName = result.isPreviousMatch() ?
+								TrackEvent.Name.ON_LEAVE : TrackEvent.Name.ON_ENTER;
+						return new TrackEvent<>(eventName, event.getCurrent(), event.getPrevious());
 					}
 				});
 	}
@@ -67,7 +59,7 @@ public class RobotTracker {
 			return isCurrentMatch() || isPreviousMatch();
 		}
 
-		public boolean allMatch() {
+		public boolean bothMatch() {
 			return isCurrentMatch() && isPreviousMatch();
 		}
 
