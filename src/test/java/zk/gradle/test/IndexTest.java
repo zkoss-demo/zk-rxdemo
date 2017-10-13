@@ -11,17 +11,17 @@ import org.zkoss.zul.Label;
 import org.zkoss.zul.Textbox;
 
 /**
- *	example Zats Test case for index.zul see https://www.zkoss.org/wiki/ZATS_Essentials/Getting_Started
+ * example Zats Test case for index.zul see https://www.zkoss.org/wiki/ZATS_Essentials/Getting_Started
  */
 public class IndexTest {
 	//init/destroy a DefaultZatsEnvironment once for the whole test class
 	@ClassRule
-	public static ZatsEnv env = new ZatsEnv( "./src/main/webapp/WEB-INF", "./src/main/webapp");
+	public static ZatsEnv env = new ZatsEnv("./src/main/webapp/WEB-INF", "./src/main/webapp");
 
 	//automatically creates/destroys a Zats Client around each @Test method
-	@Rule 
+	@Rule
 	public ZatsEnv.AutoClient client = env.autoClient();
-	
+
 	@Test
 	public void testIndex() {
 		DesktopAgent desktopAgent = client.connect("/index.zul");
@@ -29,10 +29,11 @@ public class IndexTest {
 		ComponentAgent nameInput = desktopAgent.query("#name");
 		ComponentAgent submitButton = desktopAgent.query("#submit");
 		ComponentAgent responseLabel = desktopAgent.query("#response");
-		
+
 		Assert.assertEquals("", nameInput.as(Textbox.class).getValue());
 		nameInput.as(InputAgent.class).input("Tester");
 		submitButton.click();
+
 		Assert.assertEquals("Hello Tester!", responseLabel.as(Label.class).getValue());
 	}
 
