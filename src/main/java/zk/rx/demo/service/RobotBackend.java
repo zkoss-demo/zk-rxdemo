@@ -4,10 +4,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observables.ConnectableObservable;
-import io.reactivex.schedulers.Schedulers;
 import zk.rx.demo.domain.Position;
 import zk.rx.demo.domain.Robot;
-import zk.rx.demo.helper.Logger;
 
 import java.util.Map;
 import java.util.Random;
@@ -40,7 +38,7 @@ public class RobotBackend {
 				.mapToObj(index -> new Robot(100 + index, new Position(0, 0), Robot.Mood.NEUTRAL))
 				.collect(Collectors.toConcurrentMap(Robot::getId, robot -> robot));
 
-		Observable<TrackEvent<Robot>> obs = Observable.create(this::backGroundThread);
+		Observable<TrackEvent<Robot>> obs = Observable.create(this::backgroundThread);
 		hotRobotObservable = obs.publish();
 		disposable = hotRobotObservable.connect();
 	}
@@ -61,7 +59,7 @@ public class RobotBackend {
 		disposable.dispose();
 	}
 
-	private void backGroundThread(ObservableEmitter<TrackEvent<Robot>> source) {
+	private void backgroundThread(ObservableEmitter<TrackEvent<Robot>> source) {
 		new Thread(() -> {
 			while (!source.isDisposed()) {
 				try {
