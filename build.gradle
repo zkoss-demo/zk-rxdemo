@@ -13,7 +13,7 @@ gretty {
 
 // In this section you declare where to find the dependencies of your project
 repositories {
-//    maven {  
+//    maven {
 //        credentials {
 //            username 'user'
 //            password 'password'
@@ -25,6 +25,9 @@ repositories {
     maven { url "http://mavensync.zkoss.org/eval" }
     mavenCentral()
 }
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 sourceSets {
 	jettyRunner {
@@ -45,6 +48,7 @@ dependencies {
 
 	jettyRunnerRuntime "org.eclipse.jetty:jetty-runner:${jettyVersion}"
 	jettyRunnerRuntime "org.eclipse.jetty.websocket:javax-websocket-server-impl:${jettyVersion}"
+	jettyRunnerRuntime "javax.websocket:javax.websocket-api:${websocketApiVersion}"
 }
 
 //launch Jetty using jetty-runner
