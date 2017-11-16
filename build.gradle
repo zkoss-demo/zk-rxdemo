@@ -6,21 +6,10 @@ buildscript {
   dependencies { classpath 'org.akhikhl.gretty:gretty:+' }
 }
 apply plugin: 'org.akhikhl.gretty'
-gretty {
-	servletContainer = 'jetty9.4' //jetty7, jetty8, jetty9, jetty9.3, jetty9.4
-//	servletContainer = 'tomcat8'
-}
+gretty { servletContainer = 'jetty9.4' }
 
 // In this section you declare where to find the dependencies of your project
 repositories {
-//    maven {
-//        credentials {
-//            username 'user'
-//            password 'password'
-//        }
-//    	url "https://maven.zkoss.org/repo/zk/pe" //ZK-PE repo requires login
-//    	url "https://maven.zkoss.org/repo/zk/ee" //ZK-EE repo requires login
-//    }
     maven { url "http://mavensync.zkoss.org/maven2" }
     maven { url "http://mavensync.zkoss.org/eval" }
     mavenCentral()
@@ -37,11 +26,8 @@ sourceSets {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-	compile "org.zkoss.zk:zk:${zkVersion}"
-	compile "org.zkoss.zk:zkbind:${zkVersion}"
-	compile "org.zkoss.zk:zkex:${zkVersion}"    /*ZK PE*/
 	compile "org.zkoss.zk:zkmax:${zkVersion}"   /*ZK EE*/
-	compile "org.zkoss.zk:zuti:${zkVersion}"    /*optional enable for shadow elements support */
+	compile "org.zkoss.zk:zuti:${zkVersion}"    /*optional, enable for shadow elements support */
 	compile "commons-io:commons-io:${commonsIoVersion}"
 
 	compile "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
